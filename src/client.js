@@ -17,20 +17,20 @@ client.on('connect', function(connection) {
         console.log("Connection Error: " + error.toString());
     });
     connection.on('close', function() {
-        console.log('echo-protocol Connection Closed');
+        console.log('dframe-protocol Connection Closed');
     });
     connection.on('message', function(message) {
         if (message.type === 'utf8') {
             console.log("Received: '" + message.utf8Data + "'");
         }
+        connection.close();
     });
     
     if (connection.connected) {
         connection.sendUTF(argv.c);
-        setTimeout(function(){connection.close()} ,100);
     }    
 });
  
-client.connect('ws://'+cfg.IP+':'+cfg.PORT+'/', 'dframe-protocol');
+client.connect('ws://'+cfg.IP+':'+cfg.PORT+'/', cfg.PROTOCOL);
 // this is the command format:
 // \dframe>node src\client.js -c test

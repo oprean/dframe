@@ -36,7 +36,7 @@ class App extends Component {
     componentDidMount() {
         this.countdown = setInterval(this.timer.bind(this), 4000);
         
-        this.connection = new w3cwebsocket('ws://'+cfg.IP+':'+cfg.PORT+'/', 'dframe-protocol');
+        this.connection = new w3cwebsocket('ws://'+cfg.IP+':'+cfg.PORT+'/', cfg.PROTOCOL);
         this.connection.onmessage = response => { 
             response = JSON.parse(response.data);
             switch(response.cmd) {

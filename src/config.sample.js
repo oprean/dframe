@@ -1,6 +1,8 @@
 exports.OS = 'win';
+
 exports.IP = 'localhost';
 exports.PORT = 8093;
+exports.WS_PROTOCOL = 'protocol';
 
 exports.GOOGLE_CLIENT_ID = '123'
 exports.GOOGLE_CLIENT_SECRET = '123'

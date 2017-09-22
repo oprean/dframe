@@ -86,7 +86,7 @@ wsServer.on('request', function(request) {
       return;
     }
     
-    var connection = request.accept('dframe-protocol', request.origin);
+    var connection = request.accept(cfg.PROTOCOL, request.origin);
     console.log((new Date()) + ' Connection accepted.');
     processCommand(connection);
     connection.on('close', function(reasonCode, description) {
@@ -96,7 +96,8 @@ wsServer.on('request', function(request) {
 
 function processCommand(connection) {
     connection.on('message', function(message) {
-        cmd = message.utf8Data;
+        var cmd = message.utf8Data;
+        if (!cmd) return       
         switch (cmd) {
             case cs.CMD_PING:
                 connection.sendUTF('pong');
