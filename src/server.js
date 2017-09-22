@@ -27,7 +27,7 @@ function getNewPic(connection) {
     album = googleAlbums[album];
 
     var options = {
-        imgMax: 1600,
+        imgMax: cfg.GOOGLE_IMG_WIDHT,
         albumId : album.id
     }
     picasa.getPhotos(googleAccessToken, options, (error, photos) => {

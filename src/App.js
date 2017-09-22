@@ -2,7 +2,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import React, { Component } from 'react';
 import {w3cwebsocket} from 'websocket';
 import './App.css';
-import './Animate.css';
+//import './Animate.css';
 import cs from './constants';
 import cfg from './config';
 
@@ -45,6 +45,8 @@ class App extends Component {
                     newPics.splice(0, 1, response.photo);
                     this.setState({pics: newPics});
                     break;
+                default:
+                    break
             }        
         }
 
@@ -72,8 +74,8 @@ class App extends Component {
     
     render() {
         const pics = this.state.pics.map((item, i) => (
-            <div>
-                <img style={{width: '300px'}} key={item} alt={item} src={item.content.src}/>
+            <div key={i}>
+                <img key={item} alt={item} src={item.content.src}/>
                 <div className="img-descr">{item.album_title}</div>
             </div>
         ));        
@@ -81,8 +83,8 @@ class App extends Component {
         <div className="App">
             <ReactCSSTransitionGroup
                 transitionName="fader"
-                transitionEnterTimeout={4000}
-                transitionLeaveTimeout={4000}>
+                transitionEnterTimeout={1000}
+                transitionLeaveTimeout={1000}>
                 {pics}
             </ReactCSSTransitionGroup>
             
