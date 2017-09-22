@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 var WebSocketClient = require('websocket').client;
- 
+var argv = require('minimist')(process.argv.slice(2));
+console.log(argv);
+
 var client = new WebSocketClient();
- 
+
 client.on('connectFailed', function(error) {
     console.log('Connect Error: ' + error.toString());
 });
@@ -21,14 +23,10 @@ client.on('connect', function(connection) {
         }
     });
     
-    function sendNumber() {
-        if (connection.connected) {
-            var number = Math.round(Math.random() * 0xFFFFFF);
-            connection.sendUTF(number.toString());
-            setTimeout(sendNumber, 1000);
-        }
-    }
-    sendNumber();
+    if (connection.connected) {
+        connection.sendUTF(argv.c);
+        setTimeout(function(){connection.close()} ,100);
+    }    
 });
  
-client.connect('ws://localhost:8090/', 'echo-protocol');
+client.connect('ws://localhost:8090/', 'dframe-protocol');
