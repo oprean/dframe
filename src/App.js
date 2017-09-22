@@ -10,23 +10,44 @@ class App extends Component {
     constructor() {
         super()     
         this.state = {
-            pics: [0],
+            pics: [{ 
+                id: null,
+                album_id: null,
+                album_title: null,
+                access: null,
+                width: null,
+                height: null,
+                size: null,
+                checksum: null,
+                timestamp: null,
+                image_version: null,
+                commenting_enabled: null,
+                comment_count: 0,
+                content:
+                 { type: 'image/jpeg',
+                   src: 'pics/photo0.jpg' },
+                title: 'Digital Frame Logo',
+                summary: '' }
+            ],
             msg:''
         }
     }
 
-    getNewPhotoId() {
-        return Math.floor((Math.random() * 10) + 1);
-    }
-
     componentDidMount() {
         this.countdown = setInterval(this.timer.bind(this), 4000);
+        
         this.connection = new w3cwebsocket('ws://'+cfg.IP+':'+cfg.PORT+'/', 'dframe-protocol');
-        this.connection.onmessage = evt => { 
-              this.setState({
-              msg : evt.data
-            })
-          };
+        this.connection.onmessage = response => { 
+            response = JSON.parse(response.data);
+            switch(response.cmd) {
+                case cs.CMD_NEW_PIC:
+                    let newPics = this.state.pics.slice();
+                    newPics.splice(0, 1, response.photo);
+                    this.setState({pics: newPics});
+                    break;
+            }        
+        }
+
     }
 
     componentWillUnmount() {
@@ -34,11 +55,7 @@ class App extends Component {
     }
 
     timer() {
-        let newPics = this.state.pics.slice();
-        let photoId = this.getNewPhotoId();
-        newPics.splice(0, 1, photoId);
-        this.setState({pics: newPics});
-        this.connection.send(photoId.toString())
+        this.connection.send(cs.CMD_NEW_PIC);
     }
     
     handlePing() {
@@ -54,20 +71,21 @@ class App extends Component {
     }
     
     render() {
-        window.console.log(this.state.pics);
         const pics = this.state.pics.map((item, i) => (
-                <img style={{width: '300px'}} key={item} alt={item} src={"/pics/photo"+item+".jpg"}/>
-        ));
-        
+            <div>
+                <img style={{width: '300px'}} key={item} alt={item} src={item.content.src}/>
+                <div className="img-descr">{item.album_title}</div>
+            </div>
+        ));        
         return (
         <div className="App">
             <ReactCSSTransitionGroup
                 transitionName="fader"
-                transitionEnterTimeout={2000}
-                transitionLeaveTimeout={2000}>
+                transitionEnterTimeout={4000}
+                transitionLeaveTimeout={4000}>
                 {pics}
             </ReactCSSTransitionGroup>
-            <div className="img-descr">Server msg: {this.state.msg}</div>
+            
             <button onClick={this.handlePing.bind(this)}> Ping </button>
             <button onClick={this.handleToggle.bind(this)}> Toggle LED </button>
             <button onClick={this.handleNewPic.bind(this)}> New photo </button>

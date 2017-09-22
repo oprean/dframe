@@ -29,7 +29,7 @@ var fs = require('fs');
 
 picasa.renewAccessToken(config, REFRESH_TOKEN, (error, accessToken) => {
   ACCESS_TOKEN =  accessToken;
-  var options = {access:'private'};
+  var options = {};
     /*picasa.getAlbums(ACCESS_TOKEN, options,  (error, albums) => {
         //console.log(error, albums)
         albums.forEach(function(album){
@@ -37,9 +37,36 @@ picasa.renewAccessToken(config, REFRESH_TOKEN, (error, accessToken) => {
             fs.appendFileSync('message.txt', album.title);
         })
     })*/
-    options = {imgmax: 1600}
+    
+    /*  { id: '6129474302902353777',
+    name: 'PeTarcuIarna',
+    num_photos: 79,
+    published: '2015-03-21T11:46:19.000Z',
+    title: 'Pe Tarcu iarna',
+    summary: '',
+    location: '',
+    nickname: 'Sergiu Oprean' },*/
+    
+    options = {imgMax: 1600}
     
     picasa.getPhotos(ACCESS_TOKEN, options, (error, photos) => {
           console.log(error, photos)
     })
+    
+/*  { id: '6448995563230379938',
+    album_id: '6448994195776126625',
+    access: 'private',
+    width: '2048',
+    height: '1366',
+    size: '626496',
+    checksum: 'fe2421f1',
+    timestamp: '1501334601000',
+    image_version: '68901',
+    commenting_enabled: 'true',
+    comment_count: 0,
+    content:
+     { type: 'image/jpeg',
+       src: 'https://lh3.googleusercontent.com/-EKN_aQBGKiw/WX9vS-hqv6I/AAAAAAABDSU/19DndOYBl0ET0RfS1eKZ5eNPlkoKt5H6ACHMYCQ/s1600/DSC04635.jpg' },
+    title: 'DSC04635.jpg',
+    summary: '' },*/
 })
