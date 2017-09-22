@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import {w3cwebsocket} from 'websocket';
 import './App.css';
 import './Animate.css';
-import cs from './Constants';
+import cs from './constants';
+import cfg from './config';
 
 class App extends Component {
     constructor() {
@@ -20,7 +21,7 @@ class App extends Component {
 
     componentDidMount() {
         this.countdown = setInterval(this.timer.bind(this), 4000);
-        this.connection = new w3cwebsocket('ws://'+cs.IP+':'+cs.PORT+'/', 'dframe-protocol');
+        this.connection = new w3cwebsocket('ws://'+cfg.IP+':'+cfg.PORT+'/', 'dframe-protocol');
         this.connection.onmessage = evt => { 
               this.setState({
               msg : evt.data

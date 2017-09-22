@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 var WebSocketClient = require('websocket').client;
+var cs = require('./Constants.js');
+var cfg = require('./config.js');
 var argv = require('minimist')(process.argv.slice(2));
 console.log(argv);
 
@@ -29,4 +31,6 @@ client.on('connect', function(connection) {
     }    
 });
  
-client.connect('ws://localhost:8090/', 'dframe-protocol');
+client.connect('ws://'+cfg.IP+':'+cfg.PORT+'/', 'dframe-protocol');
+// this is the command format:
+// \dframe>node src\client.js -c test
