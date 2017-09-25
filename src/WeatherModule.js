@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
 import {w3cwebsocket} from 'websocket';
-import PhotosModule from './PhotosModule';
-import WeatherModule from './WeatherModule';
-import './App.css';
 import cs from './constants';
 import cfg from './config';
 
-class App extends Component {
+class WeatherModule extends Component {
     constructor() {
         super()     
         this.state = {
-            activeModuleID: cfg.DEFAULT_MODULE,
+            location: 'trs',
         }
     }
 
@@ -18,16 +15,25 @@ class App extends Component {
         this.countdown = setInterval(this.refreshModule.bind(this), 4000);
         
         this.connection = new w3cwebsocket('ws://'+cfg.IP+':'+cfg.PORT+'/', cfg.PROTOCOL);
-        this.connection.onmessage = response => { 
+        var response = null;
+        this.connection.onmessage = response => {           
+        try {
             response = JSON.parse(response.data);
+        } catch(err){
+            console.log('Invalid server response! Response: '+ response.data);
+        };
+        
+        if (response == null) return;
+            
             switch(response.cmd) {
-                case cs.CMD_SWITCH_MODULE:
-                    this.setState({activeModuleID: response.moduleID});
+                case cs.CMD_UPDATE_WEATHER:
+                    this.setState({weather: null});
                     break;
                 default:
                     break
             }        
         }
+
     }
 
     componentWillUnmount() {
@@ -40,20 +46,19 @@ class App extends Component {
     }
 
     refreshModule() {
-        /*sendCommand({
-            text:cs.CMD_NEW_PIC,
+        this.sendCommand({
+            text:cs.CMD_UPDATE_WEATHER,
             params:null
-        })*/
+        })
     }
-        
+    
     render() {
-        var activeModule = <PhotosModule />;
         return (
         <div className="App">
-            {activeModule}
+            weather module
         </div>
         );
     }
 }
 
-export default App;
+export default WeatherModule;

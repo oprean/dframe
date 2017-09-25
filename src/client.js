@@ -27,10 +27,10 @@ client.on('connect', function(connection) {
     });
     
     if (connection.connected) {
-        connection.sendUTF(argv.c);
+        connection.sendUTF(JSON.stringify({text:argv.c, params:argv.p}));
     }    
 });
  
 client.connect('ws://'+cfg.IP+':'+cfg.PORT+'/', cfg.PROTOCOL);
 // this is the command format:
-// \dframe>node src\client.js -c test
+// \dframe>node src\client.js -c switch-module -p 0

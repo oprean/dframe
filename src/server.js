@@ -96,27 +96,50 @@ wsServer.on('request', function(request) {
 
 function processCommand(connection) {
     connection.on('message', function(message) {
-        var cmd = message.utf8Data;
-        if (!cmd) return       
-        switch (cmd) {
+        var command = null;
+        try {
+            command = JSON.parse(message.utf8Data);
+        } catch(err){
+            console.log('Invalid command! Command: '+ message.utf8Data);
+        };
+        
+        if (command == null) return;
+        
+        switch (command.text) {
             case cs.CMD_PING:
                 connection.sendUTF('pong');
                 console.log('pong');
                 break;
+                
             case cs.CMD_NEW_PIC:
                 getNewPic(connection);
                 break;
+                
             case cs.CMD_TOGGLE:
                 if (cfg.OS == cs.OS_RPI) {
-                    connection.sendUTF(cmd + ' executed!');
-                    console.log(cmd + ' executed!');
+                    connection.sendUTF(command.text + ' executed!');
+                    console.log(command.text + ' executed!');
                     ledState = ledState==1?0:1;
                     led.writeSync(ledState);                    
                 }
                 break;
+                
+            case cs.CMD_SWITCH_MODULE:
+                var moduleID = command.params;
+                module_id = (moduleID>=cfg.MODULES.length-1)
+                    ?moduleID=0
+                    :moduleID++;
+                var response = {
+                    cmd:cs.CMD_SWITCH_MODULE,
+                    moduleID: moduleID
+                };
+                connection.sendUTF(JSON.stringify(response));
+                console.log(command.text + ': '+moduleID);
+                break;
+                
             default:
-                connection.sendUTF(cmd + ' bad command or operator!');
-                console.log(cmd + ' bad command or operator!');
+                connection.sendUTF(command.text + ' bad command or operator!');
+                console.log(command.text + ' bad command or operator!');
                 break;
         }
     });
