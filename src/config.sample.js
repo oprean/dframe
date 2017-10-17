@@ -12,4 +12,12 @@ exports.GOOGLE_REDIRECT_URI = 'http://localhost:3000/';
 exports.GOOGLE_IMG_WIDHT = 1280;
 
 // 0 = photos, 1 = WEATHER, 2 = HOME 
-EXPORTS.DEFAULT_MODULE = 0
+exports.MODULES = [
+    {id:0,name:'photos'},
+    {id:1,name:'weather'},
+    //{id:2,name:'home'},
+]
+exports.PHOTOS_MODULE_ID = 0;
+exports.WEATHER_MODULE_ID = 1;
+exports.HOME_MODULE_ID = 2;
+exports.DEFAULT_MODULE_ID = 0

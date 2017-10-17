@@ -1,14 +1,11 @@
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'; 
 import React, { Component } from 'react';
-import {w3cwebsocket} from 'websocket';
 import './App.css';
-//import './Animate.css';
 import cs from './constants';
-import cfg from './config';
 
 class PhotosModule extends Component {
-    constructor() {
-        super()     
+    constructor(props) {
+        super(props)     
         this.state = {
             pics: [{ 
                 id: null,
@@ -35,21 +32,7 @@ class PhotosModule extends Component {
 
     componentDidMount() {
         this.countdown = setInterval(this.timer.bind(this), 4000);
-        
-        this.connection = new w3cwebsocket('ws://'+cfg.IP+':'+cfg.PORT+'/', cfg.PROTOCOL);
-        this.connection.onmessage = response => { 
-            response = JSON.parse(response.data);
-            switch(response.cmd) {
-                case cs.CMD_NEW_PIC:
-                    let newPics = this.state.pics.slice();
-                    newPics.splice(0, 1, response.photo);
-                    this.setState({pics: newPics});
-                    break;
-                default:
-                    break
-            }        
-        }
-
+        this.props.conn.handleMessage(this);
     }
 
     componentWillUnmount() {
@@ -58,7 +41,7 @@ class PhotosModule extends Component {
 
     sendCommand(command) {
         command = JSON.stringify(command)
-        this.connection.send(command);
+        this.props.conn.sendMessage(command);
     }
 
     timer() {

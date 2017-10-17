@@ -3,7 +3,7 @@ import {w3cwebsocket} from 'websocket';
 import cs from './constants';
 import cfg from './config';
 
-class WeatherModule extends Component {
+class HomeModule extends Component {
     constructor() {
         super()     
         this.state = {
@@ -13,9 +13,8 @@ class WeatherModule extends Component {
 
     componentDidMount() {
         this.countdown = setInterval(this.refreshModule.bind(this), 4000);
-        
-        this.connection = new w3cwebsocket('ws://'+cfg.IP+':'+cfg.PORT+'/', cfg.PROTOCOL);
 
+        var response = null;
         this.connection.onmessage = response => {           
         try {
             response = JSON.parse(response.data);
@@ -46,19 +45,15 @@ class WeatherModule extends Component {
     }
 
     refreshModule() {
-        this.sendCommand({
-            text:cs.CMD_UPDATE_WEATHER,
-            params:null
-        })
     }
     
     render() {
         return (
         <div className="App">
-            weather module
+            home module
         </div>
         );
     }
 }
 
-export default WeatherModule;
+export default HomeModule;

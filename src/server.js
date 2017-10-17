@@ -31,6 +31,7 @@ function getNewPic(connection) {
         albumId : album.id
     }
     picasa.getPhotos(googleAccessToken, options, (error, photos) => {
+
         if (photos) {
             var photo = Math.floor(Math.random() * photos.length);
             photo = photos[photo];
@@ -40,8 +41,11 @@ function getNewPic(connection) {
                 album: album, 
                 photo: photo
             };
-            connection.sendUTF(JSON.stringify(response));
-            console.log(cmd + ': '+photo.content.src);
+            try {
+                connection.sendUTF(JSON.stringify(response));
+            } catch(err) {
+                console.log(err);
+            }
         }
     })
 }
@@ -104,7 +108,7 @@ function processCommand(connection) {
         };
         
         if (command == null) return;
-        
+        console.log('Processing cmd: '+command.text);        
         switch (command.text) {
             case cs.CMD_PING:
                 connection.sendUTF('pong');

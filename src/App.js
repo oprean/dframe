@@ -1,56 +1,58 @@
 import React, { Component } from 'react';
-import {w3cwebsocket} from 'websocket';
+import WSConn from './WSConn';
+
 import PhotosModule from './PhotosModule';
 import WeatherModule from './WeatherModule';
-import './App.css';
+import HomeModule from './WeatherModule';
+
 import cs from './constants';
 import cfg from './config';
+import './App.css';
 
 class App extends Component {
     constructor() {
         super()     
         this.state = {
-            activeModuleID: cfg.DEFAULT_MODULE,
+            activeModuleID: cfg.DEFAULT_MODULE_ID,
         }
+        this.conn = new WSConn();
     }
 
     componentDidMount() {
-        this.countdown = setInterval(this.refreshModule.bind(this), 4000);
-        
-        this.connection = new w3cwebsocket('ws://'+cfg.IP+':'+cfg.PORT+'/', cfg.PROTOCOL);
-        this.connection.onmessage = response => { 
-            response = JSON.parse(response.data);
-            switch(response.cmd) {
-                case cs.CMD_SWITCH_MODULE:
-                    this.setState({activeModuleID: response.moduleID});
-                    break;
-                default:
-                    break
-            }        
-        }
+        this.conn.handleMessage(this);
     }
 
     componentWillUnmount() {
-        clearInterval(this.countdown);
     }
 
     sendCommand(command) {
         command = JSON.stringify(command)
-        this.connection.send(command);
+        WSConn.conn.send(command);
     }
-
-    refreshModule() {
-        /*sendCommand({
-            text:cs.CMD_NEW_PIC,
-            params:null
-        })*/
+        
+    getActiveModule() {
+        var activeModule = null;
+        switch(this.state.activeModuleID) {
+            case cfg.PHOTOS_MODULE_ID:
+                activeModule = <PhotosModule conn={this.conn} />;
+                break;
+            case cfg.WEATHER_MODULE_ID:
+                activeModule = <WeatherModule conn={this.conn} />;
+                break;
+            case cfg.HOME_MODULE_ID:
+                activeModule = <HomeModule conn={this.conn} />;
+                break;
+            default:
+                activeModule = <PhotosModule conn={this.conn} />;
+                break;
+        }
+        return activeModule;
     }
         
     render() {
-        var activeModule = <PhotosModule />;
         return (
         <div className="App">
-            {activeModule}
+            {this.getActiveModule()}
         </div>
         );
     }
