@@ -33,4 +33,4 @@ client.on('connect', function(connection) {
  
 client.connect('ws://'+cfg.IP+':'+cfg.PORT+'/', cfg.PROTOCOL);
 // this is the command format:
-// \dframe>node src\client.js -c switch-module -p 0
+// \dframe>node src\client.js -c switch-module -p weather

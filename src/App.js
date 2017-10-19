@@ -19,7 +19,8 @@ class App extends Component {
     }
 
     componentDidMount() {
-        this.conn.handleMessage(this);
+        console.log('mount app')
+        this.conn.handleMessage({moduleId:cfg.MAIN_MODULE_ID, context:this});
     }
 
     componentWillUnmount() {
@@ -27,7 +28,7 @@ class App extends Component {
 
     sendCommand(command) {
         command = JSON.stringify(command)
-        WSConn.conn.send(command);
+        this.conn.sendMessage(command);
     }
         
     getActiveModule() {

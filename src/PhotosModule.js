@@ -2,10 +2,12 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import React, { Component } from 'react';
 import './App.css';
 import cs from './constants';
+import cfg from './config';
 
 class PhotosModule extends Component {
     constructor(props) {
-        super(props)     
+        super(props)    
+        
         this.state = {
             pics: [{ 
                 id: null,
@@ -32,7 +34,8 @@ class PhotosModule extends Component {
 
     componentDidMount() {
         this.countdown = setInterval(this.timer.bind(this), 4000);
-        this.props.conn.handleMessage(this);
+        console.log('mount photo');
+        this.props.conn.handleMessage({moduleId:cfg.PHOTOS_MODULE_ID, context:this});
     }
 
     componentWillUnmount() {

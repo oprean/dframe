@@ -130,14 +130,11 @@ function processCommand(connection) {
                 
             case cs.CMD_SWITCH_MODULE:
                 var moduleID = command.params;
-                module_id = (moduleID>=cfg.MODULES.length-1)
-                    ?moduleID=0
-                    :moduleID++;
                 var response = {
                     cmd:cs.CMD_SWITCH_MODULE,
                     moduleID: moduleID
                 };
-                connection.sendUTF(JSON.stringify(response));
+                wsServer.broadcast(JSON.stringify(response));
                 console.log(command.text + ': '+moduleID);
                 break;
                 
