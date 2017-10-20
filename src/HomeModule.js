@@ -1,59 +1,102 @@
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'; 
 import React, { Component } from 'react';
-import {w3cwebsocket} from 'websocket';
+import './App.css';
 import cs from './constants';
 import cfg from './config';
 
-class HomeModule extends Component {
-    constructor() {
-        super()     
+class PhotosModule extends Component {
+    constructor(props) {
+        super(props)    
+        
         this.state = {
-            location: 'trs',
+            pics: [{ 
+                id: null,
+                album_id: null,
+                album_title: null,
+                access: null,
+                width: null,
+                height: null,
+                size: null,
+                checksum: null,
+                timestamp: null,
+                image_version: null,
+                commenting_enabled: null,
+                comment_count: 0,
+                content:
+                 { type: 'image/jpeg',
+                   src: 'pics/photo0.jpg' },
+                title: 'Digital Frame Logo',
+                summary: '' }
+            ],
+            msg:''
         }
     }
 
     componentDidMount() {
-        this.countdown = setInterval(this.refreshModule.bind(this), 4000);
-
-        var response = null;
-        this.connection.onmessage = response => {           
-        try {
-            response = JSON.parse(response.data);
-        } catch(err){
-            console.log('Invalid server response! Response: '+ response.data);
-        };
-        
-        if (response == null) return;
-            
-            switch(response.cmd) {
-                case cs.CMD_UPDATE_WEATHER:
-                    this.setState({weather: null});
-                    break;
-                default:
-                    break
-            }        
-        }
-
+        this.timer = setInterval(this.refreshModule.bind(this), 4000);
+        console.log('mount photo');
+        this.props.conn.handleMessage({moduleId:cfg.PHOTOS_MODULE_ID, context:this});
     }
 
     componentWillUnmount() {
-        clearInterval(this.countdown);
+        clearInterval(this.timer);
     }
 
     sendCommand(command) {
         command = JSON.stringify(command)
-        this.connection.send(command);
+        this.props.conn.sendMessage(command);
     }
 
     refreshModule() {
+        this.sendCommand({
+            text:cs.CMD_NEW_PIC,
+            params:null
+        })
+    }
+    
+    handlePing() {
+        this.sendCommand({
+            text:cs.CMD_PING,
+            params:null
+        })
+    }
+    
+    handleNewPic() {
+        this.sendCommand({
+            text:cs.CMD_NEW_PIC,
+            params:null
+        })
+    }
+    
+    handleToggle() {
+        this.sendCommand({
+            text:cs.CMD_TOGGLE,
+            params:null
+        })
     }
     
     render() {
+        const pics = this.state.pics.map((item, i) => (
+            <div key={i}>
+                <img key={item} alt={item} src={item.content.src}/>
+                <div className="img-descr">{item.album_title}</div>
+            </div>
+        ));        
         return (
         <div className="App">
-            home module
+            <ReactCSSTransitionGroup
+                transitionName="fader"
+                transitionEnterTimeout={1000}
+                transitionLeaveTimeout={1000}>
+                {pics}
+            </ReactCSSTransitionGroup>
+            
+            <button onClick={this.handlePing.bind(this)}> Ping </button>
+            <button onClick={this.handleToggle.bind(this)}> Toggle LED </button>
+            <button onClick={this.handleNewPic.bind(this)}> New photo </button>
         </div>
         );
     }
 }
 
-export default HomeModule;
+export default PhotosModule;

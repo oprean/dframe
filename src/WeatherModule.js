@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {w3cwebsocket} from 'websocket';
 import cs from './constants';
 import cfg from './config';
 
@@ -7,42 +6,46 @@ class WeatherModule extends Component {
     constructor() {
         super()     
         this.state = {
-            location: 'trs',
+            weather:{ 
+                coord: { lon: null, lat: null },
+                weather: [ { id: null, main: null, description: null, icon: null } ],
+                base: null,
+                main:
+                 { temp: null,
+                   pressure: null,
+                   humidity: null,
+                   temp_min: null,
+                   temp_max: null },
+                visibility: null,
+                wind: { speed: null, deg: null },
+                clouds: { all: null },
+                dt: null,
+                sys:
+                 { type: null,
+                   id: null,
+                   message: null,
+                   country: null,
+                   sunrise: null,
+                   sunset: null },
+                id: null,
+                name: null,
+                cod: null 
+            }
         }
     }
 
     componentDidMount() {
-        this.countdown = setInterval(this.refreshModule.bind(this), 4000);
-        
-        this.connection = new w3cwebsocket('ws://'+cfg.IP+':'+cfg.PORT+'/', cfg.PROTOCOL);
-
-        this.connection.onmessage = response => {           
-        try {
-            response = JSON.parse(response.data);
-        } catch(err){
-            console.log('Invalid server response! Response: '+ response.data);
-        };
-        
-        if (response == null) return;
-            
-            switch(response.cmd) {
-                case cs.CMD_UPDATE_WEATHER:
-                    this.setState({weather: null});
-                    break;
-                default:
-                    break
-            }        
-        }
-
+        this.timer = setInterval(this.refreshModule.bind(this), cfg.OPEN_WEATHER_MAP_API_REFRESH);
+        this.props.conn.handleMessage({moduleId:cfg.WEATHER_MODULE_ID, context:this});
     }
 
     componentWillUnmount() {
-        clearInterval(this.countdown);
+        clearInterval(this.timer);
     }
 
     sendCommand(command) {
         command = JSON.stringify(command)
-        this.connection.send(command);
+        this.props.conn.sendMessage(command);
     }
 
     refreshModule() {
@@ -54,8 +57,11 @@ class WeatherModule extends Component {
     
     render() {
         return (
-        <div className="App">
-            weather module
+        <div className="WeatherModule">
+            Weather module
+            <div>Locatie: {this.state.weather.name} </div>
+            <div>Descriere: {this.state.weather.weather[0].description} </div>
+            <div>Temperatura: {this.state.weather.main.temp} </div>
         </div>
         );
     }

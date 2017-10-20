@@ -23,6 +23,9 @@ class WSConn {
                         newPics.splice(0, 1, response.photo);
                         this.modules.photos.context.setState({pics: newPics});
                         break;
+                    case cs.CMD_UPDATE_WEATHER:
+                        this.modules.weather.context.setState({weather: response.weatherUpdate});
+                        break;
                     default:
                         break
                 }

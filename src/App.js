@@ -5,7 +5,6 @@ import PhotosModule from './PhotosModule';
 import WeatherModule from './WeatherModule';
 import HomeModule from './WeatherModule';
 
-import cs from './constants';
 import cfg from './config';
 import './App.css';
 

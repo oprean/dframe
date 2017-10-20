@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const cs = require('./constants.js');
 const cfg = require('./config.js');
-
+fetch = require('node-fetch');
 const Picasa = require('picasa')
 const picasa = new Picasa()
 
@@ -48,6 +48,34 @@ function getNewPic(connection) {
             }
         }
     })
+}
+
+function getParams() {
+    var params = "?";
+    params += "id=" + cfg.OPEN_WEATHER_MAP_API_LOCATION_ID;
+    params += "&units=" + cfg.OPEN_WEATHER_MAP_API_UNITS;
+    params += "&lang=" + cfg.OPEN_WEATHER_MAP_API_LANG;
+    params += "&APPID=" + cfg.OPEN_WEATHER_MAP_API_KEY;
+
+    return params;
+}
+
+function getWeatherUpdate(connection) {
+    var url = cfg.OPEN_WEATHER_MAP_API_URL + cfg.OPEN_WEATHER_MAP_API_ENDPOINT + getParams();
+    fetch(url)
+        .then(res => res.json())
+	.then(json => {
+            console.log(json);
+            var response = {
+                cmd:cs.CMD_UPDATE_WEATHER,
+                weatherUpdate: json
+            };
+            try {
+                connection.sendUTF(JSON.stringify(response));
+            } catch(err) {
+                console.log(err);
+            }
+        });
 }
 
 var WebSocketServer = require('websocket').server;
@@ -118,7 +146,10 @@ function processCommand(connection) {
             case cs.CMD_NEW_PIC:
                 getNewPic(connection);
                 break;
-                
+            case cs.CMD_UPDATE_WEATHER:
+                getWeatherUpdate(connection);
+                break;
+            
             case cs.CMD_TOGGLE:
                 if (cfg.OS == cs.OS_RPI) {
                     connection.sendUTF(command.text + ' executed!');

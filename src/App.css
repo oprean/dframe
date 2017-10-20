@@ -94,3 +94,7 @@ img {
 	transform:   translate(250px,0);
 	transform: translate3d(250px,0,0);
 }
+
+.WeatherModule {
+    color: red;
+}

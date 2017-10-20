@@ -33,13 +33,13 @@ class PhotosModule extends Component {
     }
 
     componentDidMount() {
-        this.countdown = setInterval(this.timer.bind(this), 4000);
+        this.timer = setInterval(this.refreshModule.bind(this), 4000);
         console.log('mount photo');
         this.props.conn.handleMessage({moduleId:cfg.PHOTOS_MODULE_ID, context:this});
     }
 
     componentWillUnmount() {
-        clearInterval(this.countdown);
+        clearInterval(this.timer);
     }
 
     sendCommand(command) {
@@ -47,27 +47,13 @@ class PhotosModule extends Component {
         this.props.conn.sendMessage(command);
     }
 
-    timer() {
+    refreshModule() {
         this.sendCommand({
             text:cs.CMD_NEW_PIC,
             params:null
         })
     }
-    
-    handlePing() {
-        this.sendCommand({
-            text:cs.CMD_PING,
-            params:null
-        })
-    }
-    
-    handleNewPic() {
-        this.sendCommand({
-            text:cs.CMD_NEW_PIC,
-            params:null
-        })
-    }
-    
+        
     handleToggle() {
         this.sendCommand({
             text:cs.CMD_TOGGLE,
@@ -90,10 +76,6 @@ class PhotosModule extends Component {
                 transitionLeaveTimeout={1000}>
                 {pics}
             </ReactCSSTransitionGroup>
-            
-            <button onClick={this.handlePing.bind(this)}> Ping </button>
-            <button onClick={this.handleToggle.bind(this)}> Toggle LED </button>
-            <button onClick={this.handleNewPic.bind(this)}> New photo </button>
         </div>
         );
     }
