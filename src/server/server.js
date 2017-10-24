@@ -1,52 +1,20 @@
 #!/usr/bin/env node
 const cs = require('../constants.js');
 const cfg = require('../config.js');
-const photos = require('./server.photos.js');
-fetch = require('node-fetch');
 
-function getParams() {
-    var params = "?";
-    params += "id=" + cfg.OPEN_WEATHER_MAP_API_LOCATION_ID;
-    params += "&units=" + cfg.OPEN_WEATHER_MAP_API_UNITS;
-    params += "&lang=" + cfg.OPEN_WEATHER_MAP_API_LANG;
-    params += "&APPID=" + cfg.OPEN_WEATHER_MAP_API_KEY;
+const Photos = require('./server.photos.js');
+const photos = new Photos();
 
-    return params;
-}
+const Weather = require('./server.weather.js');
+const weather = new Weather();
 
-const GPhotos = new photos();
-
-function getWeatherUpdate(connection) {
-    var url = cfg.OPEN_WEATHER_MAP_API_URL + cfg.OPEN_WEATHER_MAP_API_ENDPOINT + getParams();
-    fetch(url)
-        .then(res => res.json())
-	.then(json => {
-            console.log(json);
-            var response = {
-                cmd:cs.CMD_UPDATE_WEATHER,
-                weatherUpdate: json
-            };
-            try {
-                connection.sendUTF(JSON.stringify(response));
-            } catch(err) {
-                console.log(err);
-            }
-        });
+if (cfg.OS == cs.OS_RPI) {
+    const Home = require('./server.home.js');
+    const home = new Home();
 }
 
 var WebSocketServer = require('websocket').server;
 var http = require('http');
-
-if (cfg.OS == cs.OS_RPI) {
-    var Gpio = require('onoff').Gpio;
-    var led = new Gpio(17, 'out');
-    var ledState = 1;
-    var button = new Gpio(18, 'in', 'up');
-
-    button.watch(function(err, value) {
-      led.writeSync(value);
-    });
-}
 
 var server = http.createServer(function(request, response) {
     console.log((new Date()) + ' Received request for ' + request.url);
@@ -100,10 +68,10 @@ function processCommand(connection) {
                 break;
                 
             case cs.CMD_NEW_PIC:
-                GPhotos.getNewPic(connection);
+                photos.getNewPic(connection);
                 break;
             case cs.CMD_UPDATE_WEATHER:
-                getWeatherUpdate(connection);
+                weather.getWeatherUpdate(connection);
                 break;
             
             case cs.CMD_TOGGLE:

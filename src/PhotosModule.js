@@ -34,8 +34,8 @@ class PhotosModule extends Component {
 
     componentDidMount() {
         this.timer = setInterval(this.refreshModule.bind(this), 4000);
-        console.log('mount photo');
         this.props.conn.handleMessage({moduleId:cfg.PHOTOS_MODULE_ID, context:this});
+        setTimeout(function(){this.refreshModule()}.bind(this),200);
     }
 
     componentWillUnmount() {

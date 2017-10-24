@@ -37,18 +37,21 @@ class WeatherModule extends Component {
     componentDidMount() {
         this.timer = setInterval(this.refreshModule.bind(this), cfg.OPEN_WEATHER_MAP_API_REFRESH);
         this.props.conn.handleMessage({moduleId:cfg.WEATHER_MODULE_ID, context:this});
+        setTimeout(function(){this.refreshModule()}.bind(this),200);
     }
-
+  
     componentWillUnmount() {
         clearInterval(this.timer);
     }
 
     sendCommand(command) {
         command = JSON.stringify(command)
+        console.log('sendCmd');
         this.props.conn.sendMessage(command);
     }
 
     refreshModule() {
+        console.log('refresh');
         this.sendCommand({
             text:cs.CMD_UPDATE_WEATHER,
             params:null
