@@ -1,54 +1,8 @@
 #!/usr/bin/env node
-const cs = require('./constants.js');
-const cfg = require('./config.js');
+const cs = require('../constants.js');
+const cfg = require('../config.js');
+const photos = require('./server.photos.js');
 fetch = require('node-fetch');
-const Picasa = require('picasa')
-const picasa = new Picasa()
-
-const config = {
-  clientId     : cfg.GOOGLE_CLIENT_ID,
-  redirectURI  : cfg.GOOGLE_REDIRECT_URI,
-  clientSecret : cfg.GOOGLE_CLIENT_SECRET
-}
-
-var googleAccessToken = null;
-var googleAlbums = [];
-
-picasa.renewAccessToken(config, cfg.GOOGLE_API_REFRESH_TOKEN, (error, accessToken) => {
-  googleAccessToken = accessToken;
-  var options = {};
-    picasa.getAlbums(accessToken, options,  (error, albums) => {
-        googleAlbums = albums;
-    });
-})
-
-function getNewPic(connection) {
-    var album = Math.floor(Math.random() * googleAlbums.length);
-    album = googleAlbums[album];
-
-    var options = {
-        imgMax: cfg.GOOGLE_IMG_WIDHT,
-        albumId : album.id
-    }
-    picasa.getPhotos(googleAccessToken, options, (error, photos) => {
-
-        if (photos) {
-            var photo = Math.floor(Math.random() * photos.length);
-            photo = photos[photo];
-            photo.album_title = album.title;
-            var response = {
-                cmd:cs.CMD_NEW_PIC,
-                album: album, 
-                photo: photo
-            };
-            try {
-                connection.sendUTF(JSON.stringify(response));
-            } catch(err) {
-                console.log(err);
-            }
-        }
-    })
-}
 
 function getParams() {
     var params = "?";
@@ -59,6 +13,8 @@ function getParams() {
 
     return params;
 }
+
+const GPhotos = new photos();
 
 function getWeatherUpdate(connection) {
     var url = cfg.OPEN_WEATHER_MAP_API_URL + cfg.OPEN_WEATHER_MAP_API_ENDPOINT + getParams();
@@ -144,7 +100,7 @@ function processCommand(connection) {
                 break;
                 
             case cs.CMD_NEW_PIC:
-                getNewPic(connection);
+                GPhotos.getNewPic(connection);
                 break;
             case cs.CMD_UPDATE_WEATHER:
                 getWeatherUpdate(connection);
