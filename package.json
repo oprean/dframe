@@ -6,11 +6,13 @@
     "react-scripts": "1.0.13"
   },
   "dependencies": {
+    "moment": "^2.19.1",
     "onoff": "^1.1.7",
     "picasa": "^1.0.6",
     "react": "^15.6.1",
     "react-addons-css-transition-group": "^15.6.0",
     "react-dom": "^15.6.1",
+    "react-moment": "^0.6.5",
     "rpi-gpio": "^0.8.1",
     "websocket": "^1.0.24"
   },

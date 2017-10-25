@@ -79,7 +79,7 @@ function processCommand(connection) {
                 break;
                 
             case cs.CMD_GET_CONFIGS:
-                configs.getConfig(connection);
+                configs.getConfigs(connection);
                 break;
                             
             case cs.CMD_SWITCH_MODULE:

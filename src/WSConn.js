@@ -8,8 +8,10 @@ class WSConn {
         this.modules = {};
         
         this.handleMessage = function(context) {
+            if (!context.moduleId) context.moduleId = 'main';
             this.modules[context.moduleId] = context;
-            this.conn.onmessage = response => { 
+            console.log(this.modules);
+            this.conn.onmessage = response => {
                 response = JSON.parse(response.data);
                 switch(response.cmd) {
                     case cs.CMD_SWITCH_MODULE:
@@ -19,7 +21,7 @@ class WSConn {
                     
                     case cs.CMD_GET_CONFIGS:
                         console.log('get configs')
-                        this.modules.main.context.setState({configs: response.data});
+                        this.modules.main.context.setState({configs: JSON.parse(response.data)});
                         break;
                     
                     case cs.CMD_NEW_PIC:

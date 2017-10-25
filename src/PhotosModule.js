@@ -1,5 +1,6 @@
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'; 
 import React, { Component } from 'react';
+import Moment from 'react-moment';
 import './App.css';
 import cs from './constants';
 import cfg from './config';
@@ -35,7 +36,7 @@ class PhotosModule extends Component {
     componentDidMount() {
         this.timer = setInterval(this.refreshModule.bind(this), 4000);
         this.props.conn.handleMessage({moduleId:cfg.PHOTOS_MODULE_ID, context:this});
-        setTimeout(function(){this.refreshModule()}.bind(this),200);
+        setTimeout(function(){this.refreshModule()}.bind(this),1000);
     }
 
     componentWillUnmount() {
@@ -65,7 +66,10 @@ class PhotosModule extends Component {
         const pics = this.state.pics.map((item, i) => (
             <div key={i}>
                 <img key={item} alt={item} src={item.content.src}/>
-                <div className="img-descr">{item.album_title}</div>
+                <div className="img-descr">
+                    {item.album_title}<br/>
+                    <Moment unix format="YYYY-MM-DD HH:mm">{item.timestamp}</Moment>
+                </div>
             </div>
         ));        
         return (

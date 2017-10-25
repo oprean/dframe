@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import WSConn from './WSConn';
+import cs from './constants';
 
 import PhotosModule from './PhotosModule';
 import WeatherModule from './WeatherModule';
@@ -24,25 +25,16 @@ class App extends Component {
         setTimeout(
             function(){
                 this.conn.sendMessage(
-                    JSON.stringify(
-                    {
+                    JSON.stringify({
                         text:cs.CMD_GET_CONFIGS,
-                        params:null}
-                    )
+                        params:null
+                    })
                 )
             }.bind(this),
-            200
+            1000
         );
     }
-
-    componentWillUnmount() {
-    }
-
-    sendCommand(command) {
-        command = JSON.stringify(command)
-        this.conn.sendMessage(command);
-    }
-        
+      
     getActiveModule() {
         var activeModule = null;
         switch(this.state.activeModuleID) {

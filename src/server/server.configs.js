@@ -4,7 +4,7 @@ const fs = require('fs');
 
 class ServerConfigs {
     constructor() {
-        this.configData = fs.readFileSync('./modules-config.json', 'utf8');
+        this.configData = fs.readFileSync('./src/modules-config.json', 'utf8');
     }       
     getConfigs(connection) {
         var response = {
@@ -12,7 +12,7 @@ class ServerConfigs {
             data: this.configData
         };
         try {
-            connection.sendUTF(response);
+            connection.sendUTF(JSON.stringify(response));
         } catch(err) {
             console.log(err);
         }
