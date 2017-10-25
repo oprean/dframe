@@ -98,3 +98,9 @@ img {
 .WeatherModule {
     color: red;
 }
+
+.MainMenu-Container {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}

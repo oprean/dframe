@@ -2,6 +2,9 @@
 const cs = require('../constants.js');
 const cfg = require('../config.js');
 
+const Configs = require('./server.configs.js');
+const configs = new Configs();
+
 const Photos = require('./server.photos.js');
 const photos = new Photos();
 
@@ -70,19 +73,15 @@ function processCommand(connection) {
             case cs.CMD_NEW_PIC:
                 photos.getNewPic(connection);
                 break;
+                
             case cs.CMD_UPDATE_WEATHER:
                 weather.getWeatherUpdate(connection);
                 break;
-            
-            case cs.CMD_TOGGLE:
-                if (cfg.OS == cs.OS_RPI) {
-                    connection.sendUTF(command.text + ' executed!');
-                    console.log(command.text + ' executed!');
-                    ledState = ledState==1?0:1;
-                    led.writeSync(ledState);                    
-                }
-                break;
                 
+            case cs.CMD_GET_CONFIGS:
+                configs.getConfig(connection);
+                break;
+                            
             case cs.CMD_SWITCH_MODULE:
                 var moduleID = command.params;
                 var response = {

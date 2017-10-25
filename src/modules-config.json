@@ -1,0 +1,24 @@
+{
+    "modules": [
+     {
+        "name":"photos",
+        "settings":[
+                {
+                    "id": "refresh",
+                    "name": "Photo delay (minutes)",
+                    "type": "input"
+                }
+        ]
+    },
+    {
+        "name":"weather",
+        "settings":[
+                {
+                    "id": "refresh",
+                    "name": "Weather update (minutes)",
+                    "type": "input"
+                }
+        ]
+    }
+    ]
+}

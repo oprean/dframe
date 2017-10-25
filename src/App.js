@@ -4,6 +4,7 @@ import WSConn from './WSConn';
 import PhotosModule from './PhotosModule';
 import WeatherModule from './WeatherModule';
 import HomeModule from './WeatherModule';
+import MainMenu from './MainMenu';
 
 import cfg from './config';
 import './App.css';
@@ -20,6 +21,18 @@ class App extends Component {
     componentDidMount() {
         console.log('mount app')
         this.conn.handleMessage({moduleId:cfg.MAIN_MODULE_ID, context:this});
+        setTimeout(
+            function(){
+                this.conn.sendMessage(
+                    JSON.stringify(
+                    {
+                        text:cs.CMD_GET_CONFIGS,
+                        params:null}
+                    )
+                )
+            }.bind(this),
+            200
+        );
     }
 
     componentWillUnmount() {
@@ -52,6 +65,7 @@ class App extends Component {
     render() {
         return (
         <div className="App">
+            <MainMenu />
             {this.getActiveModule()}
         </div>
         );
