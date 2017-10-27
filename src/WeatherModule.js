@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import cs from './constants';
 import cfg from './config';
+import './Photos.css';
 
 class WeatherModule extends Component {
     constructor() {

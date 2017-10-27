@@ -1,7 +1,7 @@
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'; 
 import React, { Component } from 'react';
 import Moment from 'react-moment';
-import './App.css';
+import './Photos.css';
 import cs from './constants';
 import cfg from './config';
 
@@ -19,7 +19,7 @@ class PhotosModule extends Component {
                 height: null,
                 size: null,
                 checksum: null,
-                timestamp: null,
+                timestamp: "",
                 image_version: null,
                 commenting_enabled: null,
                 comment_count: 0,
@@ -54,26 +54,17 @@ class PhotosModule extends Component {
             params:null
         })
     }
-        
-    handleToggle() {
-        this.sendCommand({
-            text:cs.CMD_TOGGLE,
-            params:null
-        })
-    }
     
     render() {
-        const pics = this.state.pics.map((item, i) => (
+        var pics = this.state.pics.map((item, i) => (
             <div key={i}>
                 <img key={item} alt={item} src={item.content.src}/>
-                <div className="img-descr">
-                    {item.album_title}<br/>
-                    <Moment unix format="YYYY-MM-DD HH:mm">{item.timestamp}</Moment>
-                </div>
+                <div className="photo-album">{item.album_title}</div>
+                <Moment className="photo-time" unix locale="ro" fromNow>{item.timestamp.toString().slice(0,-3)}</Moment>                
             </div>
         ));        
         return (
-        <div className="App">
+        <div className="Photos-Container">
             <ReactCSSTransitionGroup
                 transitionName="fader"
                 transitionEnterTimeout={1000}
