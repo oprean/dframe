@@ -78,6 +78,10 @@ function processCommand(connection) {
                 weather.getWeatherUpdate(connection);
                 break;
                 
+            case cs.CMD_UPDATE_FORECAST:
+                weather.getForecastUpdate(connection);
+                break;
+            
             case cs.CMD_GET_CONFIGS:
                 configs.getConfigs(connection);
                 break;

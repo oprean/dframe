@@ -17,7 +17,7 @@ class ServerWeather {
     }
 
     getWeatherUpdate(connection) {
-        var url = cfg.OPEN_WEATHER_MAP_API_URL + cfg.OPEN_WEATHER_MAP_API_ENDPOINT + this.getParams();
+        var url = cfg.OPEN_WEATHER_MAP_API_URL + cfg.OPEN_WEATHER_MAP_API_WEATHER_ENDPOINT + this.getParams();
         fetch(url)
         .then(res => res.json())
 	.then(json => {
@@ -25,6 +25,24 @@ class ServerWeather {
             var response = {
                 cmd:cs.CMD_UPDATE_WEATHER,
                 weatherUpdate: json
+            };
+            try {
+                connection.sendUTF(JSON.stringify(response));
+            } catch(err) {
+                console.log(err);
+            }
+        });
+    }
+    
+    getForecastUpdate(connection) {
+        var url = cfg.OPEN_WEATHER_MAP_API_URL + cfg.OPEN_WEATHER_MAP_API_FORECAST_ENDPOINT + this.getParams();
+        fetch(url)
+        .then(res => res.json())
+	.then(json => {
+            console.log(json);
+            var response = {
+                cmd:cs.CMD_UPDATE_FORECAST,
+                forecastUpdate: json
             };
             try {
                 connection.sendUTF(JSON.stringify(response));

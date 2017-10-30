@@ -32,6 +32,9 @@ class WSConn {
                     case cs.CMD_UPDATE_WEATHER:
                         this.modules.weather.context.setState({weather: response.weatherUpdate});
                         break;
+                    case cs.CMD_UPDATE_FORECAST:
+                        this.modules.weather.context.setState({forecast: response.forecastUpdate});
+                        break;
                     default:
                         break
                 }

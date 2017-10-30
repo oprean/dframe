@@ -31,7 +31,36 @@ class WeatherModule extends Component {
                 id: null,
                 name: null,
                 cod: null 
-            }
+            },
+            forecast:{
+                city:{id:null},name:null,
+                coord:{lon:null,lat:null},
+                country:null,
+                cod:null,
+                message:null,
+                cnt:null,
+                list:[{
+                    dt:null,
+                    main:{
+                        temp:null,
+                        temp_min:null,
+                        temp_max:null,
+                        pressure:null,
+                        sea_level:null,
+                        grnd_level:null,
+                        humidity:null,
+                        temp_kf:null
+                    },
+                    weather:[{
+                        id:804,
+                        main:null,
+                        description:null,
+                        icon:null}],
+                    clouds:{all:null},
+                    wind:{speed:null,deg:null},
+                    sys:{pod:null},
+                    dt_txt:null}
+                ]}
         }
     }
 
@@ -55,6 +84,10 @@ class WeatherModule extends Component {
         console.log('refresh');
         this.sendCommand({
             text:cs.CMD_UPDATE_WEATHER,
+            params:null
+        })
+        this.sendCommand({
+            text:cs.CMD_UPDATE_FORECAST,
             params:null
         })
     }
