@@ -26,9 +26,7 @@ class WSConn {
                     
                     case cs.CMD_NEW_PIC:
                         console.log('new photo')
-                        let newPics = this.modules.photos.context.state.pics.slice();
-                        newPics.splice(0, 1, response.photo);
-                        this.modules.photos.context.setState({pics: newPics});
+                        this.modules.photos.context.setState({photo:response.photo});
                         break;
                         
                     case cs.CMD_UPDATE_WEATHER:

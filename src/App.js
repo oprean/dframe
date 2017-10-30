@@ -20,7 +20,6 @@ class App extends Component {
     }
 
     componentDidMount() {
-        console.log('mount app')
         this.conn.handleMessage({moduleId:cfg.MAIN_MODULE_ID, context:this});
         setTimeout(
             function(){
