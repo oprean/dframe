@@ -1,7 +1,58 @@
 import React, { Component } from 'react';
+import Moment from 'react-moment';
+import moment from 'moment';
 import cs from './constants';
 import cfg from './config';
-import './Photos.css';
+import './Weather.css';
+
+class Current extends Component { 
+    render() {
+        return (
+        <div>
+            <div>Locatie: {this.props.weather.name} </div>
+            <div>Descriere: {this.props.weather.weather[0].description} </div>
+            <div>Temperatura: {this.props.weather.main.temp} </div>
+        </div>
+        );
+    }
+}
+
+class Forecast extends Component { 
+    constructor(props) {
+        super(props)
+        this.today = moment(this.props.weather.list[0].dt_txt, "YYYY-MM-DD HH:mm").format('D');
+    }
+    getToday() {
+        return (
+                <div>{moment(this.props.weather.list[0].dt_txt).format('D')}</div>
+        )
+    }
+    
+    getNextDays() {
+        
+    }
+    
+    getIcon(forecast) {
+        return 'owf owf-3x owf-'+forecast.weather[0].id;
+    }
+    render() {
+        var today = this.getToday();
+        const forecasts = this.props.weather.list.map((forecast,i) => (
+            <div key={i}>
+                {forecast.main.temp} C
+                <i className={this.getIcon(forecast)}></i>
+                <Moment className="forecast-time" locale="ro" format="dddd D, HH:mm">{forecast.dt_txt}</Moment>
+            </div>
+        ));
+
+        return (
+        <div>
+            {today}
+            {forecasts}
+        </div>
+        );
+    }
+}
 
 class WeatherModule extends Component {
     constructor() {
@@ -94,11 +145,9 @@ class WeatherModule extends Component {
     
     render() {
         return (
-        <div className="WeatherModule">
-            Weather module
-            <div>Locatie: {this.state.weather.name} </div>
-            <div>Descriere: {this.state.weather.weather[0].description} </div>
-            <div>Temperatura: {this.state.weather.main.temp} </div>
+        <div className="Weather-Container">
+            <Current weather={this.state.weather}/>
+            <Forecast weather={this.state.forecast}/>
         </div>
         );
     }

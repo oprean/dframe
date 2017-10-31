@@ -18,6 +18,7 @@ class ServerWeather {
 
     getWeatherUpdate(connection) {
         var url = cfg.OPEN_WEATHER_MAP_API_URL + cfg.OPEN_WEATHER_MAP_API_WEATHER_ENDPOINT + this.getParams();
+        console.log(url);
         fetch(url)
         .then(res => res.json())
 	.then(json => {
@@ -36,6 +37,7 @@ class ServerWeather {
     
     getForecastUpdate(connection) {
         var url = cfg.OPEN_WEATHER_MAP_API_URL + cfg.OPEN_WEATHER_MAP_API_FORECAST_ENDPOINT + this.getParams();
+        console.log(url);
         fetch(url)
         .then(res => res.json())
 	.then(json => {
