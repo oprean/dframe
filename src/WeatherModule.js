@@ -20,12 +20,16 @@ class Current extends Component {
           textAlign: 'center',
           display: 'inline-block',
         };
+        const tempStyle = {
+            fontSize:'5em'
+        }
         return (
         <Paper style={style} zDepth={1}>
             <div>{this.props.weather.name} </div>
             <i className={this.getIcon(this.props.weather)}></i>
             <div>{this.props.weather.weather[0].description} </div>
-            <div>{parseInt(this.props.weather.main.temp)} °C</div>
+            <span style={tempStyle}>{parseInt(this.props.weather.main.temp)}</span>
+            <span>°C</span>
         </Paper>
         );
     }
@@ -42,8 +46,36 @@ class Forecast extends Component {
         )
     }
     
-    getNextDays() {
+    getDays() {
+        let oDays = [];
+        let sDay = moment(this.props.weather.list[0].dt_txt).format('YYYY-MM-DD');
+        let sDays = [];sDays.push(sDay);
         
+        let oDay = {
+            dt: sDay,
+            hourlyForcast:[],
+            minTemp: -200,
+            maxTemp: 200
+        };
+        
+        for (let day of this.props.weather.list) {
+            sDay = moment(day.dt_txt).format('YYYY-MM-DD');
+            if (sDays.indexOf(sDay)<0) {
+                oDays.push(JSON.parse(JSON.stringify(oDay)));
+                oDay = {
+                    dt: sDay,
+                    hourlyForcast:[],
+                    minTemp: -200,
+                    maxTemp: 200
+                };
+            } else {
+                oDay.hourlyForcast.push(day)
+                oDay.minTemp = day.temp<oDay.minTemp?day.temp:oDay.minTemp;
+                oDay.maxTemp = day.temp<oDay.maxTemp?day.temp:oDay.maxTemp;
+            }
+        }
+        
+        return oDays;
     }
     
     getIcon(forecast) {
