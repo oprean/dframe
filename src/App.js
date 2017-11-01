@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import WSConn from './WSConn';
 import cs from './constants';
 
-import PhotosModule from './PhotosModule';
-import WeatherModule from './WeatherModule';
-import HomeModule from './WeatherModule';
-import MainMenu from './MainMenu';
+import PhotosModule from './photos/PhotosModule';
+import WeatherModule from './weather/WeatherModule';
+import HomeModule from './home/HomeModule';
 
 import cfg from './config';
 import './App.css';
@@ -56,7 +55,6 @@ class App extends Component {
     render() {
         return (
         <div className="App">
-            <MainMenu />
             {this.getActiveModule()}
         </div>
         );

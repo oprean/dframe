@@ -25,7 +25,7 @@ class ServerPhotos {
     getNewPic(connection) {
         var album = Math.floor(Math.random() * this.googleAlbums.length);
         album = this.googleAlbums[album];
-
+        //picasa.js:147 if (options.imgMax) accessTokenParams['imgmax'] = options.imgMax
         var options = {
             imgMax: cfg.GOOGLE_IMG_WIDHT,
             albumId : album.id
