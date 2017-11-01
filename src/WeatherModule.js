@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Paper from 'material-ui/Paper';
 import Moment from 'react-moment';
 import moment from 'moment';
 import cs from './constants';
@@ -6,13 +7,26 @@ import cfg from './config';
 import './Weather.css';
 
 class Current extends Component { 
+    
+    getIcon(current) {
+        return 'owf owf-3x owf-'+current.weather[0].id;
+    }
+    
     render() {
+        const style = {
+          height: 200,
+          width: 200,
+          margin: 20,
+          textAlign: 'center',
+          display: 'inline-block',
+        };
         return (
-        <div>
-            <div>Locatie: {this.props.weather.name} </div>
-            <div>Descriere: {this.props.weather.weather[0].description} </div>
-            <div>Temperatura: {this.props.weather.main.temp} </div>
-        </div>
+        <Paper style={style} zDepth={1}>
+            <div>{this.props.weather.name} </div>
+            <i className={this.getIcon(this.props.weather)}></i>
+            <div>{this.props.weather.weather[0].description} </div>
+            <div>{parseInt(this.props.weather.main.temp)} °C</div>
+        </Paper>
         );
     }
 }
@@ -39,7 +53,7 @@ class Forecast extends Component {
         var today = this.getToday();
         const forecasts = this.props.weather.list.map((forecast,i) => (
             <div key={i}>
-                {forecast.main.temp} C
+                {forecast.main.temp} °C
                 <i className={this.getIcon(forecast)}></i>
                 <Moment className="forecast-time" locale="ro" format="dddd D, HH:mm">{forecast.dt_txt}</Moment>
             </div>
@@ -47,7 +61,6 @@ class Forecast extends Component {
 
         return (
         <div>
-            {today}
             {forecasts}
         </div>
         );
