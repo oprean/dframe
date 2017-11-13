@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import Paper from 'material-ui/Paper';
-import Moment from 'react-moment';
-import moment from 'moment';
 import './Weather.css';
 
 class CurrentWeather extends Component { 
@@ -18,7 +16,6 @@ class CurrentWeather extends Component {
           width: 200,
           margin: 20,
           textAlign: 'center',
-          display: 'inline-block',
         };
         const tempStyle = {
             fontSize:'5em'
@@ -28,7 +25,7 @@ class CurrentWeather extends Component {
             <div>{this.props.weather.name} </div>
             <i className={this.getIcon(this.props.weather)}></i>
             <div>{this.props.weather.weather[0].description} </div>
-            <span style={tempStyle}>{parseInt(this.props.weather.main.temp)}</span>
+            <span style={tempStyle}>{parseInt(this.props.weather.main.temp,10)}</span>
             <span>°C</span>
         </Paper>
         );

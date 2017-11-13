@@ -1,13 +1,8 @@
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group'; 
 import React, { Component } from 'react';
 import cs from '../constants';
 import cfg from '../config';
 
 class HomeModule extends Component {
-    constructor(props) {
-        super(props)    
-    }
-
     componentDidMount() {
         this.timer = setInterval(this.refreshModule.bind(this), 4000);
         console.log('mount photo');

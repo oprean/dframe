@@ -12,7 +12,10 @@ class Photo extends Component {
             <img alt={this.props.photo.album_title} src={this.props.photo.content.src}/>
             <div className="photo-description">
                 <div className="photo-album">{this.props.photo.album_title}</div>
-                <Moment className="photo-time" unix locale="ro" fromNow>{this.props.photo.timestamp.toString().slice(0,-3)}</Moment>                
+                <div className="photo-time">
+                    <Moment unix locale="ro" fromNow>{this.props.photo.timestamp.toString().slice(0,-3)}</Moment>                
+                </div>
+                
             </div>
         </div>
         );
@@ -51,7 +54,7 @@ class PhotosModule extends Component {
     }
 
     componentDidMount() {
-        this.timer = setInterval(this.refreshModule.bind(this), 4000);
+        this.timer = setInterval(this.refreshModule.bind(this), 6000);
         this.props.conn.handleMessage({moduleId:cfg.PHOTOS_MODULE_ID, context:this});
         setTimeout(function(){this.refreshModule()}.bind(this),1000);
     }

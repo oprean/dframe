@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import Paper from 'material-ui/Paper';
-import Moment from 'react-moment';
+import Clock from './Clock';
 import CurrentWeather from './CurrentWeather';
 import ForecastWeather from './ForecastWeather';
-import moment from 'moment';
 import cs from '../constants';
 import cfg from '../config';
 import './Weather.css';
@@ -102,6 +100,7 @@ class WeatherModule extends Component {
         <div className="Weather-Container">
             <CurrentWeather weather={this.state.weather}/>
             <ForecastWeather weather={this.state.forecast}/>
+            <Clock />
         </div>
         );
     }

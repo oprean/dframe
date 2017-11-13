@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Paper from 'material-ui/Paper';
 import Moment from 'react-moment';
 import moment from 'moment';
 import './Weather.css';
@@ -41,8 +40,8 @@ class ForecastWeather extends Component {
                 };
             } else {
                 oDay.hourlyForcast.push(day)
-                oDay.minTemp = parseInt(day.main.temp<oDay.minTemp?day.main.temp:oDay.minTemp);
-                oDay.maxTemp = parseInt(day.main.temp>oDay.maxTemp?day.main.temp:oDay.maxTemp);
+                oDay.minTemp = parseInt(day.main.temp<oDay.minTemp?day.main.temp:oDay.minTemp, 10);
+                oDay.maxTemp = parseInt(day.main.temp>oDay.maxTemp?day.main.temp:oDay.maxTemp, 10);
             }
         }
         oDays.shift();
@@ -58,13 +57,6 @@ class ForecastWeather extends Component {
     }
 
     render() {
-        const style = {
-          height: 200,
-          width: 200,
-          margin: 20,
-          textAlign: 'center',
-          display: 'inline-block',
-        };
         const forecasts = this.days.map((day,i) => (
             <div key={i}>
                 {day.minTemp} - {day.maxTemp} °C &nbsp;
