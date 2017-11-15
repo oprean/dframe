@@ -22,7 +22,6 @@ class ServerWeather {
         fetch(url)
         .then(res => res.json())
 	.then(json => {
-            console.log(json);
             var response = {
                 cmd:cs.CMD_UPDATE_WEATHER,
                 weatherUpdate: json
@@ -41,7 +40,6 @@ class ServerWeather {
         fetch(url)
         .then(res => res.json())
 	.then(json => {
-            console.log(json);
             var response = {
                 cmd:cs.CMD_UPDATE_FORECAST,
                 forecastUpdate: json

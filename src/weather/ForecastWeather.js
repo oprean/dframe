@@ -17,7 +17,6 @@ class ForecastWeather extends Component {
         let oDays = [];
         let sDay = moment(this.props.weather.list[0].dt_txt).format('YYYY-MM-DD');
         let sDays = [];sDays.push(sDay);
-        
         let oDay = {
             dt: sDay,
             hourlyForcast:[],
@@ -47,6 +46,7 @@ class ForecastWeather extends Component {
         oDays.shift();
         oDays.pop(); 
         this.days = oDays;
+        console.log(this.days);
     }
     
     getIcon(forecast) {

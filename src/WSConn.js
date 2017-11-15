@@ -13,19 +13,17 @@ class WSConn {
             console.log(this.modules);
             this.conn.onmessage = response => {
                 response = JSON.parse(response.data);
+                console.log(response.cmd)
                 switch(response.cmd) {
                     case cs.CMD_SWITCH_MODULE:
-                        console.log('switch module')
                         this.modules.main.context.setState({activeModuleID: response.moduleID});
                         break;
                     
                     case cs.CMD_GET_CONFIGS:
-                        console.log('get configs')
                         this.modules.main.context.setState({configs: JSON.parse(response.data)});
                         break;
                     
                     case cs.CMD_NEW_PIC:
-                        console.log('new photo')
                         this.modules.photos.context.setState({photo:response.photo});
                         break;
                         

@@ -79,20 +79,20 @@ class WeatherModule extends Component {
 
     sendCommand(command) {
         command = JSON.stringify(command)
-        console.log('sendCmd');
+        console.log('sendCmd: ' + command);
         this.props.conn.sendMessage(command);
     }
 
     refreshModule() {
         console.log('refresh');
         this.sendCommand({
-            text:cs.CMD_UPDATE_WEATHER,
-            params:null
-        })
-        this.sendCommand({
             text:cs.CMD_UPDATE_FORECAST,
             params:null
         })
+        setTimeout(function(){this.sendCommand({
+            text:cs.CMD_UPDATE_WEATHER,
+            params:null
+        })}.bind(this),100);
     }
     
     render() {
