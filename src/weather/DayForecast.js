@@ -28,8 +28,9 @@ class DayForecast extends Component {
         const hours = this.props.day.hourlyForcast.map((hour,i) => ( <HourForecast key={i} hour={hour}/> ));
         return (
             <Paper style={style} zDepth={1}>
-                {this.props.day.minTemp} - {this.props.day.maxTemp} °C &nbsp;
                 <Moment className="forecast-time" locale="ro" format="dddd D">{this.props.day.dt}</Moment>
+                <div>Min: {this.props.day.minTemp} °C</div>
+                <div>Max: {this.props.day.maxTemp} °C</div>
                 {hours}
             </Paper>
         );

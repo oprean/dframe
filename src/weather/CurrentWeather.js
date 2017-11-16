@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Paper from 'material-ui/Paper';
+import WUtils from './WeatherUtils';
 import './Weather.css';
 
 class CurrentWeather extends Component { 
@@ -25,7 +26,7 @@ class CurrentWeather extends Component {
         return (
         <Paper style={style} zDepth={1}>
             <div>{this.props.weather.name} </div>
-            <i className={this.getIcon(this.props.weather)}></i>
+            <i className={WUtils.icon(this.props.weather)}></i>
             <div>{this.props.weather.weather[0].description} </div>
             <span style={tempStyle}>{parseInt(this.props.weather.main.temp,10)}</span>
             <span>°C</span>

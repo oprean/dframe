@@ -2,3 +2,6 @@
     color: #F0F0F0;
     text-align: left;
 }
+.forecast-time {
+    font-size: 2em;
+}
