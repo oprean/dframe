@@ -16,6 +16,8 @@ class CurrentWeather extends Component {
           width: 200,
           margin: 20,
           textAlign: 'center',
+          background:'#000000',
+          color: '#ffffff'
         };
         const tempStyle = {
             fontSize:'5em'

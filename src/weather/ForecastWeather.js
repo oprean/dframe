@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Moment from 'react-moment';
 import moment from 'moment';
+import DayForecast from './DayForecast';
 import './Weather.css';
 
 class ForecastWeather extends Component { 
@@ -16,6 +17,7 @@ class ForecastWeather extends Component {
     processDays() {
         let oDays = [];
         let sDay = moment(this.props.weather.list[0].dt_txt).format('YYYY-MM-DD');
+        console.log(this.props.weather.list);
         let sDays = [];sDays.push(sDay);
         let oDay = {
             dt: sDay,
@@ -37,6 +39,7 @@ class ForecastWeather extends Component {
                     minTemp: 200,
                     maxTemp: -200
                 };
+                oDay.hourlyForcast.push(day)
             } else {
                 oDay.hourlyForcast.push(day)
                 oDay.minTemp = parseInt(day.main.temp<oDay.minTemp?day.main.temp:oDay.minTemp, 10);
@@ -57,13 +60,7 @@ class ForecastWeather extends Component {
     }
 
     render() {
-        const forecasts = this.days.map((day,i) => (
-            <div key={i}>
-                {day.minTemp} - {day.maxTemp} °C &nbsp;
-                <Moment className="forecast-time" locale="ro" format="dddd D">{day.dt}</Moment>
-            </div>
-        ));
-
+        const forecasts = this.days.map((day,i) => ( <DayForecast key={i} day={day}/> ));
         return (
         <div>
             {forecasts}
