@@ -57,7 +57,7 @@ class App extends Component {
         return (
         <div className="App">
             {this.getActiveModule()}
-            <MainMenu />
+            <MainMenu conn={this.conn}/>
         </div>
         );
     }

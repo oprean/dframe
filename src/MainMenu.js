@@ -4,6 +4,7 @@ import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import ActionHome from 'material-ui/svg-icons/navigation/menu';
 import {white} from 'material-ui/styles/colors';
+import cs from './constants';
 
 export default class MainMenu extends React.Component {
 
@@ -12,9 +13,21 @@ export default class MainMenu extends React.Component {
     this.state = {open: false};
   }
 
-  handleToggle = () => this.setState({open: !this.state.open});
+  handleToggle = () => {
+      this.setState({open: !this.state.open})
+  };
 
-  handleClose = () => this.setState({open: false});
+  handleClick = (moduleId) => {
+      
+      console.log(moduleId);
+      this.setState({open: false});
+      this.props.conn.sendMessage(
+            JSON.stringify({
+                text:cs.CMD_SWITCH_MODULE,
+                params:moduleId
+            })
+        )
+  }
 
   render() {
   
@@ -23,14 +36,6 @@ const styles = {
     width: 36,
     height: 36,
   },
-  mediumIcon: {
-    width: 48,
-    height: 48,
-  },
-  largeIcon: {
-    width: 60,
-    height: 60,
-  },
   small: {
     position:'absolute',
     top: 0,
@@ -38,22 +43,12 @@ const styles = {
     width: 72,
     height: 72,
     padding: 16,
-    color:'#cccccc',
-//    background:'#ffffff'
   },
-  medium: {   
-    width: 96,
-    height: 96,
-    padding: 24,
-  },
-  large: {
-    width: 120,
-    height: 120,
-    padding: 30,
-  },
+  drawer: {
+      backgroundColor:'#cccccc',
+  }
 };
-      
-  
+ 
     return (
       <div>
         <IconButton
@@ -63,13 +58,17 @@ const styles = {
           <ActionHome color={white} />
           </IconButton>
         <Drawer
+          containerStyle={styles.drawer}       
           docked={false}
           width={200}
           open={this.state.open}
           onRequestChange={(open) => this.setState({open})}
         >
-          <MenuItem onClick={this.handleClose}>Menu Item</MenuItem>
-          <MenuItem onClick={this.handleClose}>Menu Item 2</MenuItem>
+
+          <MenuItem onClick={this.handleClick.bind(this,'photos')}>Digital Frame</MenuItem>
+          <MenuItem onClick={this.handleClick.bind(this,'weather')}>Weather-Clock</MenuItem>
+          <MenuItem onClick={this.handleClick.bind(this,'home')}>Home Automation</MenuItem>
+          <MenuItem onClick={this.handleClick.bind(this,'config')}>Configuration</MenuItem>
         </Drawer>
       </div>
     );
