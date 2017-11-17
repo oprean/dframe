@@ -6,7 +6,7 @@ import cs from './constants';
 import PhotosModule from './photos/PhotosModule';
 import WeatherModule from './weather/WeatherModule';
 import HomeModule from './home/HomeModule';
-
+import MainMenu from './MainMenu'
 import cfg from './config';
 import './App.css';
 
@@ -57,6 +57,7 @@ class App extends Component {
         return (
         <div className="App">
             {this.getActiveModule()}
+            <MainMenu />
         </div>
         );
     }
