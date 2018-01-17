@@ -1,4 +1,3 @@
-'use strict';
 const cs = require('../constants.js');
 const cfg = require('../config.js');
 const Picasa = require('picasa')
