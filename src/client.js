@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 var WebSocketClient = require('websocket').client;
-var cs = require('./Constants.js');
+var cs = require('./constants.js');
 var cfg = require('./config.js');
 var argv = require('minimist')(process.argv.slice(2));
 console.log(argv);

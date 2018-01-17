@@ -29,8 +29,8 @@ class DayForecast extends Component {
         return (
             <Paper style={style} zDepth={1}>
                 <Moment className="forecast-time" locale="ro" format="dddd D">{this.props.day.dt}</Moment>
-                <div>Min: {this.props.day.minTemp} °C</div>
-                <div>Max: {this.props.day.maxTemp} °C</div>
+                <hr/>
+                <div>Extreme: {this.props.day.minTemp} / {this.props.day.maxTemp} °C</div>
                 {hours}
             </Paper>
         );

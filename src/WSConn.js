@@ -12,6 +12,7 @@ class WSConn {
             this.modules[context.moduleId] = context;
             console.log(this.modules);
             this.conn.onmessage = response => {
+                console.log(response);
                 response = JSON.parse(response.data);
                 console.log(response.cmd)
                 switch(response.cmd) {
@@ -30,6 +31,7 @@ class WSConn {
                     case cs.CMD_UPDATE_WEATHER:
                         this.modules.weather.context.setState({weather: response.weatherUpdate});
                         break;
+                        
                     case cs.CMD_UPDATE_FORECAST:
                         this.modules.weather.context.setState({forecast: response.forecastUpdate});
                         break;

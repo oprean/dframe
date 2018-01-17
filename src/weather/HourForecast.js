@@ -16,10 +16,11 @@ class HourForecast extends Component {
     
     render() {
         return (
-        <div> 
-            {moment(this.props.hour.dt_txt).format('h')}
-            <i className={WUtils.icon(this.props.hour)}></i>
-            {parseInt(this.props.hour.main.temp,10)} °C
+        <div style={{verticalAlign: 'middle'}}> 
+    <span style={{fontSize:'2em'}}>{moment(this.props.hour.dt_txt).format('H')}</span>&nbsp;
+            <i style={{fontSize:'1.5em'}} className={WUtils.icon(this.props.hour)}></i>&nbsp;
+            <span style={{fontSize:'2em'}}>{parseInt(this.props.hour.main.temp,10)} °C</span>
+            <span>{this.props.hour.weather[0].description}</span>
         </div>
         );
     }

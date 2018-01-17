@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import WSConn from './WSConn';
 import cs from './constants';
 
-
+import ConfigurationModule from './configuration/ConfigurationModule';
 import PhotosModule from './photos/PhotosModule';
 import WeatherModule from './weather/WeatherModule';
 import HomeModule from './home/HomeModule';
+import WebcamModule from './webcam/WebcamModule';
 import MainMenu from './MainMenu'
 import cfg from './config';
 import './App.css';
@@ -45,6 +46,12 @@ class App extends Component {
                 break;
             case cfg.HOME_MODULE_ID:
                 activeModule = <HomeModule conn={this.conn} />;
+                break;
+            case cfg.WEBCAM_MODULE_ID:
+                activeModule = <WebcamModule conn={this.conn} />;
+                break;
+            case cfg.CONFIG_MODULE_ID:
+                activeModule = <ConfigurationModule conn={this.conn} />;
                 break;
             default:
                 activeModule = <PhotosModule conn={this.conn} />;

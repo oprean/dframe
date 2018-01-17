@@ -4,9 +4,7 @@ import cfg from '../config';
 
 class HomeModule extends Component {
     componentDidMount() {
-        this.timer = setInterval(this.refreshModule.bind(this), 4000);
-        console.log('mount photo');
-        this.props.conn.handleMessage({moduleId:cfg.PHOTOS_MODULE_ID, context:this});
+        this.props.conn.handleMessage({moduleId:cfg.HOME_MODULE_ID, context:this});
     }
 
     componentWillUnmount() {
@@ -17,14 +15,7 @@ class HomeModule extends Component {
         command = JSON.stringify(command)
         this.props.conn.sendMessage(command);
     }
-
-    refreshModule() {
-        this.sendCommand({
-            text:cs.CMD_NEW_PIC,
-            params:null
-        })
-    }
-    
+  
     handleToggle() {
         this.sendCommand({
             text:cs.CMD_TOGGLE,
@@ -34,10 +25,9 @@ class HomeModule extends Component {
     
     render() {
         return (
-        <div className="App">           
-            <button onClick={this.handlePing.bind(this)}> Ping </button>
+        <div className="Home-Container">           
+            <h1>Home Automation</h1>
             <button onClick={this.handleToggle.bind(this)}> Toggle LED </button>
-            <button onClick={this.handleNewPic.bind(this)}> New photo </button>
         </div>
         );
     }

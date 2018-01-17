@@ -46,8 +46,8 @@ class ForecastWeather extends Component {
                 oDay.maxTemp = parseInt(day.main.temp>oDay.maxTemp?day.main.temp:oDay.maxTemp, 10);
             }
         }
-        oDays.shift();
-        oDays.pop(); 
+        //oDays.shift();
+        //oDays.pop(); 
         this.days = oDays;
         console.log(this.days);
     }

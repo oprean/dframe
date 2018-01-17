@@ -4,6 +4,7 @@ import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import ActionHome from 'material-ui/svg-icons/navigation/menu';
 import {white} from 'material-ui/styles/colors';
+import cfg from './config';
 import cs from './constants';
 
 export default class MainMenu extends React.Component {
@@ -45,10 +46,16 @@ const styles = {
     padding: 16,
   },
   drawer: {
-      backgroundColor:'#cccccc',
+      backgroundColor:'#000000',
+      borderRight:'1px solid #ffffff',
+      color:'#ffffff'
+  },
+  menu: {
+      color:'#ffffff',
+      backgroundColor:'#000000',
   }
 };
- 
+    const menuItems = cfg.MODULES.map((module,i) => ( <MenuItem key={i} style={styles.menu} onClick={this.handleClick.bind(this,module.id)}>{module.name}</MenuItem> ));
     return (
       <div>
         <IconButton
@@ -64,11 +71,7 @@ const styles = {
           open={this.state.open}
           onRequestChange={(open) => this.setState({open})}
         >
-
-          <MenuItem onClick={this.handleClick.bind(this,'photos')}>Digital Frame</MenuItem>
-          <MenuItem onClick={this.handleClick.bind(this,'weather')}>Weather-Clock</MenuItem>
-          <MenuItem onClick={this.handleClick.bind(this,'home')}>Home Automation</MenuItem>
-          <MenuItem onClick={this.handleClick.bind(this,'config')}>Configuration</MenuItem>
+        {menuItems}
         </Drawer>
       </div>
     );
