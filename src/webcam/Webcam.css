@@ -1,0 +1,10 @@
+.webcam-img  {
+        background: black;
+        color: white;
+        border-radius: 1em;
+        border: 10px solid #FFF;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-right: -50%;
+        transform: translate(-50%, -50%) }

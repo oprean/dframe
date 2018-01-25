@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './Webcam.css';
 import cs from '../constants';
 import cfg from '../config';
 
@@ -14,17 +15,13 @@ class WebcamModule extends Component {
        
     render() {
         const style = {
-          width: 320,
-          height: 240,
-          margin: 20,
-          textAlign: 'center',
-          background:'#000000',
-          color: '#ffffff'
+          width: cfg.WEBCAM_IMG_WIDTH,
+          height: cfg.WEBCAM_IMG_HEIGHT,
         };
         return (
         <div className="Webcam-Container">           
             <h1>Webcam</h1>
-            <img style={style} src="http://192.168.0.107:8081"/>
+            <img className="webcam-img" style={style} src={cfg.WEBCAM_IMG_URL}/>
         </div>
         );
     }

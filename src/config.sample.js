@@ -20,6 +20,10 @@ exports.OPEN_WEATHER_MAP_API_UNITS = 'metric';
 exports.OPEN_WEATHER_MAP_API_LANG = 'ro';
 exports.OPEN_WEATHER_MAP_API_REFRESH = 600000;
 
+exports.WEBCAM_IMG_URL = 'http://192.168.0.107:8081';
+exports.WEBCAM_IMG_WIDTH = 320;
+exports.WEBCAM_IMG_HEIGHT = 240;
+
 // 0 = photos, 1 = WEATHER, 2 = HOME 
 exports.MODULES = [
     {id:0,name:'photos'},
