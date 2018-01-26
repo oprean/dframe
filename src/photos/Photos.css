@@ -79,11 +79,12 @@ img {
 	transition-property: transform, opacity;
 	transition-duration: 1000ms;
 	transition-timing-function: linear;
+        transform: translateZ(0);
 }
 .fader-leave {
 	opacity: 0;
         transition-property: opacity;
-
+        transform: translateZ(0);
 	transition-duration: 1000ms;
 	transition-timing-function: linear;
 }
