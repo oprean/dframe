@@ -21,7 +21,9 @@ class WebcamModule extends Component {
         return (
         <div className="Webcam-Container">           
             <h1>Webcam</h1>
-            <img className="webcam-img" style={style} src={cfg.WEBCAM_IMG_URL}/>
+            <div className="webcam-frame">
+                <img className="webcam-img" style={style} src={cfg.WEBCAM_IMG_URL}/>
+            </div>
         </div>
         );
     }
